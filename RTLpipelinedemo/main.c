@@ -99,16 +99,15 @@ void* control_and_clocks(void* arg) {
             }break;
         }
         if (ch == 'l' || ch == 'L') {
-            
-            
             while(true){
                 chr= getchar();
-             if (chr == '\n') {usleep(100);
-            sem_post(&myclk);
+             if (chr == '\n') {
+                usleep(100);
+                sem_post(&myclk);
            
-            }
-            if (chr == 's' || chr == 'S') {
+            }else if (chr == 's' || chr == 'S') {
             program_terminated = true;
+            sem_post(&myclk);
             break;
             }
             
