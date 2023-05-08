@@ -79,28 +79,47 @@ void* function_C(void* args) {
 }
 
 void* control_and_clocks(void* arg) {
-    int ch;
-
+    int ch,chr; 
+    ch = getchar();
     while (!program_terminated) {
-        ch = getchar();
+       
 
-        if (ch == 's' || ch == 'S') {
+        
+        if (ch == 'p' || ch == 'P') {
+           
+            chr = getchar();
+            while(true){usleep(100);
+            
+            sem_post(&myclk);
+            if (chr == 's' || chr == 'S') {
             program_terminated = true;
-        } else if (ch == 'p' || ch == 'P') {
-            continuous_run = true;
-        } else if (ch == 'l' || ch == 'L') {
-            continuous_run = false;
+            break;
+            }
+            
+            }break;
         }
-
-        if (continuous_run) {
-            usleep(100);
+        if (ch == 'l' || ch == 'L') {
+            
+            
+            while(true){
+                chr= getchar();
+             if (chr == '\n') {usleep(100);
             sem_post(&myclk);
-        } else if (ch == '\n') {
-            sem_post(&myclk);
+           
+            }
+            if (chr == 's' || chr == 'S') {
+            program_terminated = true;
+            break;
+            }
+            
         }
+        break;
+        
+    }
     }
     return NULL;
 }
+
 
 
 int main() {
@@ -126,5 +145,6 @@ int main() {
 
     return 0;
 }
+
 
 
